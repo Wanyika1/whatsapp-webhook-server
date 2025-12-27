@@ -12,9 +12,11 @@ app.get("/webhook", (req, res) => {
   const challenge = req.query["hub.challenge"];
 
   if (mode === "subscribe" && token === VERIFY_TOKEN) {
-    res.status(200).send(challenge);
+    console.log("WEBHOOK VERIFIED");
+    return res.status(200).send(challenge);
   } else {
-    res.sendStatus(403);
+    console.log("VERIFICATION FAILED", token);
+    return res.sendStatus(403);
   }
 });
 
@@ -27,5 +29,5 @@ app.get("/", (req, res) => {
   res.send("Webhook server running");
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log("Running on", PORT));
